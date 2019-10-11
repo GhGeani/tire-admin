@@ -1,5 +1,5 @@
 <template lang="pug">
-  .row(v-if="sales")
+  .row(v-if="sales.length > 0")
     sale(
       v-for="sale in sales"
       :title="sale.name" :description="sale.description"
@@ -25,11 +25,14 @@ export default {
   mounted() {
     EventBus.$on('sale:new', (data) => {
       const newSale = {
-        name: data.get('name'),
-        description: data.get('description'),
-        image: data.get('files[0]'),
-        date: data.get('date'),
+        name: data.name,
+        description: data.description,
+        date: data.date,
+        _id: data._id,
       };
+      const images = [];
+      images.push(data.images[0]);
+      newSale.images = images;
       this.sales.unshift(newSale);
     });
   },

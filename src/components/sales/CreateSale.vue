@@ -44,9 +44,9 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
       const formData = new FormData();
-      for (let i = 0; i < this.files.length; i++) {
+      for (let i = 0; i < this.files.length; i += 1) {
         const file = this.files[i];
-        formData.append(`files[${i}]`, this.files[i], Date.now() + file.name);
+        formData.append(`files[${i}]`, file, Date.now() + file.name);
       }
       formData.append('name', this.name);
       formData.append('description', this.description);
@@ -57,7 +57,7 @@ export default {
     },
     async save(data) {
       this.loading = true;
-      const { status } = await this.$http.post(
+      const result = await this.$http.post(
         `${this.$config.url}/item`,
         data,
         {
@@ -66,11 +66,13 @@ export default {
           },
         },
       );
-      if (status === 201) {
-        this.add(data);
+      console.log(result);
+
+      if (result.status === 201) {
+        this.add(result.data);
       }
       this.loading = true;
-      return status;
+      return result.status;
     },
     sendMessage(code) {
       if (code === 201) {

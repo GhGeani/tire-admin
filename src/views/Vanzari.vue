@@ -1,9 +1,9 @@
 <template lang="pug">
   section.bg-light
     create-sale(v-show="show")
-    //- .container.my-3
-    //-   form.form-group(v-on:submit.prevent="search")
-    //-     input.form-control.lead(type="text" placeholder="Cauți ceva anume?" v-model="words")
+    .container.my-3
+      form.form-group(v-on:submit.prevent="search")
+        input.form-control.lead(type="text" placeholder="Cauți ceva anume?" v-model="words")
     .container
         list(:sales="sales")
 </template>
@@ -28,7 +28,7 @@ export default {
     };
   },
   async mounted() {
-    await this.getAll();
+    this.sales = await this.getAll();
     EventBus.$on('createForm:show', () => {
       this.show = true;
     });
@@ -40,17 +40,20 @@ export default {
     async getAll() {
       this.loading = true;
       const response = await this.$http.get(`${this.$config.url}/items`);
-      this.sales = response.data;
       this.loading = false;
+      if (response.data) { return response.data; }
+      return [];
     },
     async search() {
-      const params = { page: 1 };
+      const params = {};
       if (this.words) params.words = this.words.replace(/ /g, ',');
       else params.words = ' ';
       this.loading = true;
       const response = await this.$http.get(`${this.$config.url}/items/search`, { params });
       this.sales = response.data;
       this.loading = false;
+      if (response.data) { this.sales = response.data; }
+      this.sales = response.data;
     },
 
   },
