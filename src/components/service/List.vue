@@ -1,12 +1,12 @@
 <template lang="pug">
-  section(v-if="services")
+section(v-if="services.length > 0")
     service(
     v-for="(service, index) in services"
     :name="service.name"
     :description="service.description"
     :img="service.img"
     :key="index")
-  h5.text-muted.text-center(v-else) Nu sunt servicii afișate.
+h5.text-muted.text-center(v-else) Nu sunt servicii afișate.
 </template>
 
 <script>
@@ -23,15 +23,8 @@ export default {
   components: {
     service,
   },
-  methods: {
-    async getAll() {
-      const response = await this.$http.get(`${this.$config.url}/infos`);
-      this.services = response.data;
-    },
-  },
   async mounted() {
-    await this.getAll();
-    console.log(this.services);
+    this.services = await this.getAll();
     EventBus.$on('service:new', (s) => {
       const newService = {
         name: s.get('name'),
@@ -40,6 +33,15 @@ export default {
       };
       this.services.unshift(newService);
     });
+  },
+  methods: {
+    async getAll() {
+      const response = await this.$http.get(`${this.$config.url}/infos`);
+      if (response.data) {
+        return response.data;
+      }
+      return [];
+    },
   },
 };
 </script>
