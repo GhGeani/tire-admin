@@ -3,7 +3,7 @@
     foote(v-if="$route.fullPath !== '/login'")
     nav-bar(v-if="$route.fullPath !== '/login'")
     message(:message="message.text" :status="message.status" v-if="message.show")
-    router-view
+    router-view.mb-5
 </template>
 
 <script>

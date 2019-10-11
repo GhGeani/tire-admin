@@ -5,7 +5,9 @@
       form.form-group(v-on:submit.prevent="search")
         input.form-control.lead(type="text" placeholder="Cauți ceva anume?" v-model="words")
     .container
-        list(:sales="sales")
+      list(:sales="sales" v-if="!loading")
+      .spinner-border.text-dark(v-else)
+  
 </template>
 
 <script>
@@ -47,13 +49,13 @@ export default {
     async search() {
       const params = {};
       if (this.words) params.words = this.words.replace(/ /g, ',');
-      else params.words = ' ';
+      else params.words = ',';
       this.loading = true;
       const response = await this.$http.get(`${this.$config.url}/items/search`, { params });
       this.sales = response.data;
       this.loading = false;
-      if (response.data) { this.sales = response.data; }
-      this.sales = response.data;
+      if (response.data) { return this.sales = response.data; }
+      return this.sales = [];
     },
 
   },

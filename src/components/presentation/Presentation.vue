@@ -1,5 +1,5 @@
 <template lang="pug">
-.jumbotron.h-100
+.jumbotron.h-100(v-if="slides.length > 0")
   .carousel.slide#imgs(data-ride='carousel')
       ol.carousel-indicators
         li(
@@ -15,6 +15,7 @@
           img.img-fluid(:src="`${$config.url}/files/${slide.img}`")
           .container-fluid.text-center.container-slide.position-absolute.pb-5
             p.text-white.text-slide.p-5 {{ slide.text }}
+h5.text-muted.text-center(v-else) Nu a fost găsit nici un slide de prezentare.
 </template>
 
 <script>
@@ -27,7 +28,7 @@ export default {
     };
   },
   async mounted() {
-    await this.getSlides();
+    this.slides = await this.getSlides();
     EventBus.$on('slide:new', (slide) => {
       const newSlide = {
         text: slide.get('text'),
@@ -39,7 +40,8 @@ export default {
   methods: {
     async getSlides() {
       const response = await this.$http.get(`${this.$config.url}/slides`);
-      this.slides = response.data;
+      if(response.data) return response.data;
+      else return [];
     },
   },
 };

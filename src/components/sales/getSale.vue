@@ -24,6 +24,9 @@
         .card-subtitle
           strong Descriere:
         .font-italic {{ response.data.description }}
+        span
+          strong Publicat: 
+          span {{ response.data.date }}
 </template>
 
 <script>

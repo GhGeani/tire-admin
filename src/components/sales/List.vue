@@ -7,7 +7,7 @@
       :id="sale._id"
       :key="sale._id"
     )
-  h5.text-muted.text-center(v-else) Nu a fost gasit nici un produs.
+  h5.text-muted.text-center(v-else) Nu a fost găsit nici un produs.
 </template>
 
 <script>

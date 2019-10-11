@@ -29,8 +29,10 @@ export default {
       const newService = {
         name: s.get('name'),
         description: s.get('description'),
-        img: s.get('file').name,
       };
+      if(s.get('file')) {
+        newService.img = s.get('file').name;
+      }
       this.services.unshift(newService);
     });
   },

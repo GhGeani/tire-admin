@@ -1,9 +1,10 @@
 <template lang="pug">
 .container.my-3
   .container.bg-light.d-flex.justify-content-end.shadow
-    button.btn.btn-success(@click="onSubmit")
-      i.fas.fa-save
-    button.btn.btn-danger.ml-1(@click="closeForm")
+    button.btn.btn-lg.mx-1(@click="onSubmit" v-if="!loading")
+      i.fas.fa-save(v-if="!loading")
+      .spinner-border.text-dark(v-else)
+    button.btn.btn-lg.mx-1(@click="closeForm")
       i.fas.fa-times
   form.jumbotron.bg-light.shadow.my-3.form-group.m-auto(v-on:submit="onSubmit")
     textarea.form-control.change-border(v-model="announce" rows="3" placeholder="Intrudu anunțul aici...").w-100
@@ -17,6 +18,7 @@ export default {
   data() {
     return {
       announce: '',
+      loading: false,
     };
   },
   methods: {
@@ -27,6 +29,7 @@ export default {
       e.preventDefault();
       const status = await this.saveAnnounce(this.announce);
       this.sendMessage(status);
+      this.announce = '';
       this.closeForm();
     },
     async saveAnnounce(announce) {
@@ -42,7 +45,7 @@ export default {
           date,
         });
       }
-      this.loading = true;
+      this.loading = false;
       return status;
     },
     sendMessage(code) {

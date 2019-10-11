@@ -10,7 +10,7 @@
         router-link.nav-item(to="/prezentare" tag="li")
           i.fas.fa-images
       ul.nav(v-if="logged")
-        button.btn.nav-item(tag="li" @click="showForm")
+        .nav-item(tag="li" @click="showForm")
           i.fas.fa-plus
 
 </template>

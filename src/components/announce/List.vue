@@ -1,13 +1,13 @@
 <template lang="pug">
-  .jumbotron.bg-light.my-1(v-if="announces")
-    announce(
-      v-if="announces"
-      v-for="announce in announces"
-      :description="announce.description"
-      :date="announce.date"
-      :key="announce._id"
-    )
-    .h5.text-muted.text-center(v-else) Nu sunt incă anunțuri postate.
+.jumbotron.bg-light.my-1(v-if="announces.length > 0")
+  announce(
+    v-if="announces"
+    v-for="announce in announces"
+    :description="announce.description"
+    :date="announce.date"
+    :key="announce._id"
+  )
+.h5.text-muted.text-center(v-else) Nu sunt incă anunțuri postate.
 </template>
 
 <script>
@@ -32,7 +32,8 @@ export default {
   methods: {
     async getAll() {
       const response = await this.$http.get(`${this.$config.url}/announces`);
-      return response.data.result;
+      if(response.data.result) return response.data.result;
+      return [];
     },
   },
 };
