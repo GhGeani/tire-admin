@@ -1,5 +1,7 @@
 <template lang="pug">
-.container
+.container.my-3
+  .container.bg-dark.d-flex.justify-content-end
+      button.btn.fas.fa-trash.text-warning(@click="del(id)")
   .jumbotron.bg-light.text-center(v-if="img !== undefined")
     .row
       .col-12.col-md-6.text-center.m-auto
@@ -8,16 +10,39 @@
       .col-12.col-md-6
         img.img-thumbnail(:src="`${$config.url}/files/${img}`")
   .jumbotron.bg-secondary.text-white.text-center(v-if="img == undefined")
-      h2 {{ name }}
-      p.lead {{ description }}
+    h2 {{ name }}
+    p.lead {{ description }}
+
 </template>
 
 <script>
+import { EventBus } from '../../utils/eventbus';
+
 export default {
   props: {
     name: String,
     description: String,
     img: String,
+    id: String,
+  },
+  methods: {
+    async del(id) {
+      try {
+        const { status } = await this.$http.delete(`${this.$config.url}/info/${id}`);
+        if (status === 200) {
+          EventBus.$emit('service:delete', id);
+          EventBus.$emit('message:showMessage', {
+            message: 'Serviciul a fost șters cu succes.',
+            status: 'success',
+          });
+        }
+      } catch (e) {
+        EventBus.$emit('message:showMessage', {
+          message: 'Serviciul nu a putut fi șters',
+          status: 'error',
+        });
+      }
+    },
   },
 };
 </script>

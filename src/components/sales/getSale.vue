@@ -25,7 +25,7 @@
           strong Descriere:
         .font-italic {{ response.data.description }}
         span
-          strong Publicat: 
+          strong Publicat:
           span {{ response.data.date }}
 </template>
 

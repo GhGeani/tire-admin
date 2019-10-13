@@ -1,10 +1,10 @@
 <template lang="pug">
 .container.my-3
-  .container.bg-light.d-flex.justify-content-end.p-1.shadow
-    button.btn.btn-lg.mx-1(@click="onSubmit" v-if="!loading")
+  .container.bg-dark.d-flex.justify-content-end.shadow
+    button.btn.btn-lg.text-success(@click="onSubmit" v-if="!loading")
       i.fas.fa-save(v-if="!loading")
       .spinner-border.text-dark(v-else)
-    button.btn.btn-lg.mx-1(@click="closeForm")
+    button.btn.btn-lg.text-danger(@click="closeForm")
       i.fas.fa-times
   form.container.p-3.bg-light.shadow.my-3.form-group.m-auto(v-on:submit="onSubmit")
     input.form-control(
@@ -45,8 +45,7 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
       const formData = new FormData();
-      if(this.file)
-        formData.append('file', this.file, Date.now());
+      if (this.file) formData.append('file', this.file, Date.now());
       formData.append('description', this.description);
       formData.append('name', this.name);
       const status = await this.save(formData);
@@ -55,7 +54,7 @@ export default {
     },
     async save(data) {
       this.loading = true;
-      const { status } = await this.$http.post(
+      const response = await this.$http.post(
         `${this.$config.url}/info`,
         data,
         {
@@ -64,11 +63,15 @@ export default {
           },
         },
       );
-      if (status === 201) {
-        this.add(data);
+      if (response.status === 201) {
+        this.add(response.data);
       }
-      this.loading = true;
-      return status;
+      this.name = '';
+      this.description = '';
+      this.$refs.file.value = '';
+      this.file = '';
+      this.loading = false;
+      return response.status;
     },
     sendMessage(code) {
       if (code === 201) {

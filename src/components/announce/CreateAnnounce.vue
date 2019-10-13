@@ -1,10 +1,10 @@
 <template lang="pug">
 .container.my-3
-  .container.bg-light.d-flex.justify-content-end.shadow
-    button.btn.btn-lg.mx-1(@click="onSubmit" v-if="!loading")
+  .container.bg-dark.d-flex.justify-content-end.shadow
+    button.btn.btn-lg.text-success(@click="onSubmit" v-if="!loading")
       i.fas.fa-save(v-if="!loading")
       .spinner-border.text-dark(v-else)
-    button.btn.btn-lg.mx-1(@click="closeForm")
+    button.btn.btn-lg.text-danger(@click="closeForm")
       i.fas.fa-times
   form.jumbotron.bg-light.shadow.my-3.form-group.m-auto(v-on:submit="onSubmit")
     textarea.form-control.change-border(v-model="announce" rows="3" placeholder="Intrudu anunțul aici...").w-100
@@ -35,18 +35,15 @@ export default {
     async saveAnnounce(announce) {
       this.loading = true;
       const date = new Date().toLocaleDateString('ro-RO', { year: 'numeric', month: 'long', day: 'numeric' });
-      const { status } = await this.$http.post(`${this.$config.url}/announce`, {
+      const response = await this.$http.post(`${this.$config.url}/announce`, {
         description: announce,
         date,
       });
-      if (status === 201) {
-        this.add({
-          description: announce,
-          date,
-        });
+      if (response.status === 201) {
+        this.add(response.data);
       }
       this.loading = false;
-      return status;
+      return response.status;
     },
     sendMessage(code) {
       if (code === 201) {

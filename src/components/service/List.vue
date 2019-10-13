@@ -5,7 +5,8 @@ section(v-if="services.length > 0")
     :name="service.name"
     :description="service.description"
     :img="service.img"
-    :key="index")
+    :id="service._id"
+    :key="service._id")
 h5.text-muted.text-center(v-else) Nu sunt servicii afișate.
 </template>
 
@@ -27,13 +28,18 @@ export default {
     this.services = await this.getAll();
     EventBus.$on('service:new', (s) => {
       const newService = {
-        name: s.get('name'),
-        description: s.get('description'),
+        name: s.name,
+        description: s.description,
+        _id: s._id,
       };
-      if(s.get('file')) {
-        newService.img = s.get('file').name;
+      if (s.img) {
+        newService.img = s.img;
       }
       this.services.unshift(newService);
+    });
+    EventBus.$on('service:delete', (id) => {
+      const index = this.services.findIndex(service => service._id === id);
+      this.services.splice(index, 1);
     });
   },
   methods: {

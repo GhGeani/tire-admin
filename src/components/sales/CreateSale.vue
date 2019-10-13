@@ -1,10 +1,10 @@
 <template lang="pug">
 .container.my-3
-  .container.bg-light.d-flex.justify-content-end.p-1.shadow
-    button.btn.btn-lg.mx-1(@click="onSubmit" v-if="!loading")
+  .container.bg-dark.d-flex.justify-content-end.shadow
+    button.btn.btn-lg.text-success(@click="onSubmit" v-if="!loading")
       i.fas.fa-save(v-if="!loading")
       .spinner-border.text-dark(v-else)
-    button.btn.btn-lg.mx-1(@click="closeForm")
+    button.btn.btn-lg.text-danger(@click="closeForm")
       i.fas.fa-times
   form.container.p-3.bg-light.shadow.my-3.form-group.m-auto(v-on:submit="onSubmit")
     input.form-control(
@@ -72,7 +72,11 @@ export default {
       if (result.status === 201) {
         this.add(result.data);
       }
-      this.loading = true;
+      this.name = '';
+      this.description = '';
+      this.$refs.files.value = '';
+      this.files = '';
+      this.loading = false;
       return result.status;
     },
     sendMessage(code) {

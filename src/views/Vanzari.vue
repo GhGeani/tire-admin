@@ -7,7 +7,7 @@
     .container
       list(:sales="sales" v-if="!loading")
       .spinner-border.text-dark(v-else)
-  
+
 </template>
 
 <script>

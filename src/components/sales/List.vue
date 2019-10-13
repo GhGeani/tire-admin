@@ -35,6 +35,10 @@ export default {
       newSale.images = images;
       this.sales.unshift(newSale);
     });
+    EventBus.$on('sale:delete', (id) => {
+      const index = this.sales.findIndex(sale => sale._id === id);
+      this.sales.splice(index, 1);
+    });
   },
 };
 </script>
