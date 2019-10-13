@@ -4,7 +4,7 @@
     .container.my-3
       form.form-group(v-on:submit.prevent="search")
         input.form-control.lead(type="text" placeholder="Cauți ceva anume?" v-model="words")
-    .container
+    .container.text-center.my-3
       list(:sales="sales" v-if="!loading")
       .spinner-border.text-dark(v-else)
 

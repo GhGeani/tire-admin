@@ -1,9 +1,9 @@
 <template lang="pug">
 .container.my-3
   .container.bg-dark.d-flex.justify-content-end.shadow
-    button.btn.btn-lg.text-success(@click="onSubmit" v-if="!loading")
+    button.btn.btn-lg.text-success(@click="onSubmit")
       i.fas.fa-save(v-if="!loading")
-      .spinner-border.text-dark(v-else)
+      .spinner-border(v-else)
     button.btn.btn-lg.text-danger(@click="closeForm")
       i.fas.fa-times
   form.jumbotron.bg-light.shadow.my-3.form-group.m-auto(v-on:submit="onSubmit")
@@ -27,35 +27,32 @@ export default {
     },
     async onSubmit(e) {
       e.preventDefault();
-      const status = await this.saveAnnounce(this.announce);
-      this.sendMessage(status);
+      await this.saveAnnounce(this.announce);
       this.announce = '';
       this.closeForm();
     },
     async saveAnnounce(announce) {
-      this.loading = true;
-      const date = new Date().toLocaleDateString('ro-RO', { year: 'numeric', month: 'long', day: 'numeric' });
-      const response = await this.$http.post(`${this.$config.url}/announce`, {
-        description: announce,
-        date,
-      });
-      if (response.status === 201) {
-        this.add(response.data);
-      }
-      this.loading = false;
-      return response.status;
-    },
-    sendMessage(code) {
-      if (code === 201) {
-        EventBus.$emit('message:showMessage', {
-          message: 'Anunțul s-a postat cu succes.',
-          status: 'success',
+      try {
+        this.loading = true;
+        const date = new Date().toLocaleDateString('ro-RO', { year: 'numeric', month: 'long', day: 'numeric' });
+        const response = await this.$http.post(`${this.$config.url}/announce`, {
+          description: announce,
+          date,
         });
-      } else {
+        if (response.status === 201) {
+          this.add(response.data);
+          EventBus.$emit('message:showMessage', {
+            message: 'Anunțul s-a postat cu succes.',
+            status: 'success',
+          });
+        }
+        this.loading = false;
+      } catch (error) {
         EventBus.$emit('message:showMessage', {
           message: 'Eroare: Anunțul nu a fost postat.',
           status: 'error',
         });
+        this.loading = false;
       }
     },
     add(announce) {
