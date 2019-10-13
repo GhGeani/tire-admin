@@ -13,7 +13,14 @@ import '../node_modules/@fortawesome/fontawesome-free/css/brands.css';
 import '../node_modules/@fortawesome/fontawesome-free/css/solid.css';
 
 const config = {};
-config.url = 'http://localhost:3000';
+const state = 'prod';
+let url = 'http://localhost:3000';
+
+if (state === 'prod') {
+  url = 'https://tire-backend.herokuapp.com';
+}
+
+config.url = url;
 
 
 Vue.prototype.$http = axios;
