@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "10.13.0"
+  },
   "name": "tire-admin",
   "version": "0.1.0",
   "private": true,
