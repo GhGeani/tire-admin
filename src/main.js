@@ -13,13 +13,11 @@ import '../node_modules/@fortawesome/fontawesome-free/css/brands.css';
 import '../node_modules/@fortawesome/fontawesome-free/css/solid.css';
 
 const config = {};
-const state = 'prod';
 let url = 'http://localhost:3000';
 
-if (state === 'prod') {
+if (process.env.NODE_ENV === 'production') {
   url = 'https://tire-backend.herokuapp.com';
 }
-
 config.url = url;
 
 
