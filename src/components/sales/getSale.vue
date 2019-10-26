@@ -7,14 +7,14 @@
           v-for="(slide, index) in response.data.images"
           :class="{active: index === 0}"
         )
-          img.img-thumbnail.resize-img(:src="`https://tireshopimages.s3.eu-central-1.amazonaws.com/${showedPhoto}`")
+          img.img-thumbnail.resize-img(:src="`https://tireshopimgs.s3.eu-central-1.amazonaws.com/${showedPhoto}`")
       .container.d-flex.justify-content-center
         img.img-thumbnail.img-indicator(
           data-target='#imgs'
           :data-slide-to='`index`'
           v-for="(slide, index) in response.data.images"
           :class="{active: index === 0}"
-          :src="`https://tireshopimages.s3.eu-central-1.amazonaws.com/${slide}`"
+          :src="`https://tireshopimgs.s3.eu-central-1.amazonaws.com/${slide}`"
           @click="changePhoto(slide)"
         )
     .card.col-12.col-lg-4.m-auto
