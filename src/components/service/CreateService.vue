@@ -45,7 +45,7 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
       const formData = new FormData();
-      if (this.file) formData.append('file', this.file, Date.now() +  this.file.name);
+      if (this.file) formData.append('file', this.file, Date.now() + this.file.name);
       formData.append('description', this.description);
       formData.append('name', this.name);
       await this.save(formData);
