@@ -39,7 +39,7 @@ export default {
     async onSubmit(e) {
       e.preventDefault();
       const formData = new FormData();
-      formData.append('file', this.file, `${Date.now()}.${this.file.name.split('.')[1]}`);
+      formData.append('file', this.file, Date.now());
       formData.append('text', this.text);
       await this.save(formData);
       this.closeForm();

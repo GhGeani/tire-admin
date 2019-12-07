@@ -48,7 +48,7 @@ export default {
       const formData = new FormData();
       for (let i = 0; i < this.files.length; i += 1) {
         const file = this.files[i];
-        formData.append(`files[${i}]`, file, Date.now() + file.name);
+        formData.append(`files[${i}]`, file, Date.now() + i);
       }
       formData.append('name', this.name);
       formData.append('description', this.description);

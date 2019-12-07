@@ -8,7 +8,7 @@
         h2.text-muted {{ name }}
         p.lead {{ description }}
       .col-12.col-md-6
-        img.img-thumbnail(:src="`https://tireshopimgs.s3.eu-central-1.amazonaws.com/${img}`")
+        img.img-thumbnail(:src="`https://res.cloudinary.com/demsdreams/image/upload/v1573995199/${$config.folder}/${img}.jpg`")
   .jumbotron.bg-secondary.text-white.text-center(v-if="img == undefined")
     h2 {{ name }}
     p.lead {{ description }}

@@ -4,7 +4,7 @@
       button.btn.btn-lg.fas.fa-trash.text-warning(@click="del(id)")
     router-link(:to="`/vanzari/${id}`" tag="div").card.link
       img.img-thumbnail.card-img-top.max-height(
-        v-bind:src="`https://tireshopimgs.s3.eu-central-1.amazonaws.com/${image}`"
+        v-bind:src="`https://res.cloudinary.com/demsdreams/image/upload/v1573995199/${$config.folder}/${image}.jpg`"
         )
       .card-body
         p.font-weight-bold.card-title {{ title }}

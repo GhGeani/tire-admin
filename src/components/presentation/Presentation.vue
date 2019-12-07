@@ -1,7 +1,7 @@
 <template lang="pug">
 .container(v-if="slides.length > 0")
   .jumbotron.h-100(v-for="(slide, index) in slides")
-    img.img-fluid(:src="`https://tireshopimgs.s3.eu-central-1.amazonaws.com/${slide.img}`")
+    img.img-fluid(:src="`https://res.cloudinary.com/demsdreams/image/upload/v1573995199/${$config.folder}/${slide.img}.jpg`")
     .container.text-center
       p.lead {{ slide.text }}
     .container.bg-secondary.d-flex.justify-content-end
